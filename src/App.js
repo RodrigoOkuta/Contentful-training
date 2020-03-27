@@ -38,6 +38,10 @@ const App = () => {
     return tempItems;
   };
 
+  const getRoomBySlug = slug => {
+    return rooms.find(room => room.slug === slug);
+  };
+
   const reducer = (state, action) => {
     switch (action.type) {
       default:
@@ -49,7 +53,13 @@ const App = () => {
 
   return (
     <StateProvider
-      initialState={{ rooms, sortedRooms, featuredRooms, loading }}
+      initialState={{
+        rooms,
+        sortedRooms,
+        featuredRooms,
+        loading,
+        getRoomBySlug: getRoomBySlug
+      }}
       reducer={reducer}
     >
       <Navbar />
