@@ -7,7 +7,7 @@ import { useStateValue } from "../context";
 import { StyledHero } from "../components/Hero.style";
 
 const SingleRoom = props => {
-  const [{ getRoomBySlug, loading }, dispatch] = useStateValue();
+  const [{ getRoomBySlug }] = useStateValue();
   const {
     match: {
       params: { slug }
