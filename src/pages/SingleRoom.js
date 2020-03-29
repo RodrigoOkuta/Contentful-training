@@ -1,13 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import defaultBcg from "../images/room-1.jpeg";
 import Banner from "../components/Banner";
 import { useStateValue } from "../context";
 import { StyledHero } from "../components/Hero.style";
 
 const SingleRoom = props => {
-  const [{ getRoomBySlug }] = useStateValue();
+  const { getRoomBySlug } = useStateValue();
   const {
     match: {
       params: { slug }

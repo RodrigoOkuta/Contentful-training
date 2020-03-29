@@ -6,7 +6,7 @@ import Title from "./Title";
 import { useStateValue } from "../context";
 
 const FeaturedRooms = () => {
-  const [{ featuredRooms: rooms, loading }] = useStateValue();
+  const { featuredRooms: rooms, loading } = useStateValue();
 
   if (loading) return <Loading />;
 
