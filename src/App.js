@@ -9,7 +9,7 @@ import SingleRoom from "./pages/SingleRoom";
 import Error from "./pages/Error";
 import "./App.css";
 import Loading from "./components/Loading";
-import items from "./data";
+import Client from "./Contentful";
 
 class App extends Component {
   state = {
@@ -28,27 +28,40 @@ class App extends Component {
     pets: false
   };
 
-  componentDidMount() {
-    const rooms = this.formatData(items);
-    const featuredRooms = rooms.filter(room => room.featured);
-    const maxPrice = Math.max(...rooms.map(room => room.price));
-    const maxSize = Math.max(...rooms.map(room => room.size));
+  getData = async () => {
+    try {
+      const response = await Client.getEntries({
+        content_type: "example",
+        order: "fields.price"
+      });
 
-    this.setState({
-      rooms,
-      featuredRooms,
-      sortedRooms: rooms,
-      loading: false,
-      price: maxPrice,
-      maxPrice,
-      maxSize
-    });
+      const rooms = this.formatData(response.items);
+      const featuredRooms = rooms.filter(room => room.featured);
+      const maxPrice = Math.max(...rooms.map(room => room.price));
+      const maxSize = Math.max(...rooms.map(room => room.size));
+
+      this.setState({
+        rooms,
+        featuredRooms,
+        sortedRooms: rooms,
+        loading: false,
+        price: maxPrice,
+        maxPrice,
+        maxSize
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  componentDidMount() {
+    this.getData();
   }
 
   formatData = items => {
     let tempItems = items.map(item => {
       let id = item.sys.id;
-      let images = item.fields.images.map(image => image.fields.file.url);
+      let images = item.fields.images.map(image => image.url);
 
       let room = { ...item.fields, id, images };
       return room;
